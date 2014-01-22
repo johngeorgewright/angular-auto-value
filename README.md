@@ -47,3 +47,5 @@ angular.module('myMod', ['auto-value']);
 </body>
 ```
 
+This will also work for radios, checkboxes and all other input types.
+
