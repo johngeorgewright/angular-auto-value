@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" data-ng-app="myApp">
+  <head>
+    <title>Auto value e2e testing</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
+    <script src="/angular-auto-value.js"></script>
+    <script>
+      angular.module("myApp", ["auto-value"]);
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <form action="#" class="form-horizontal" name="f">
+        <fieldset>
+          <legend>Inputs</legend>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="color">Color</label>
+            <div class="col-md-6">
+              <input class="form-control" id="color" name="color" data-ng-model="color" required type="color" value="#b89435"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="date">Date</label>
+            <div class="col-md-6">
+              <input class="form-control" id="date" name="date" data-ng-model="date" required type="date" value="1987-01-01"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="datetime">Datetime box</label>
+            <div class="col-md-6">
+              <input class="form-control" id="datetime" name="datetime" data-ng-model="datetime" required type="datetime" value="12/07/1987"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="datetime-local">Datetime-local</label>
+            <div class="col-md-6">
+              <input class="form-control" id="datetime-local" name="datetime-local" data-ng-model="datetimeLocal" required type="datetime-local" value="12/07/1987"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="email">Email</label>
+            <div class="col-md-6">
+              <input class="form-control" id="email" name="email" data-ng-model="email" required type="email" value="mung@face.com"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="month">Month</label>
+            <div class="col-md-6">
+              <input class="form-control" id="month" name="month" data-ng-model="month" required type="month" value="01/01/2013"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="number">Number</label>
+            <div class="col-md-6">
+              <input class="form-control" id="number" name="number" data-ng-model="number" required type="number" value="5555"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="password">Password box</label>
+            <div class="col-md-6">
+              <input class="form-control" id="password" name="password" data-ng-model="password" required type="password" value="my-secret-password"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="range">Range</label>
+            <div class="col-md-6">
+              <input class="form-control" id="range" name="range" data-ng-model="range" required type="range" min="1" max="100" value="80"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="search">Search</label>
+            <div class="col-md-6">
+              <input class="form-control" id="search" name="search" data-ng-model="search" required type="search" value="searching stuff"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="tel">Telephone</label>
+            <div class="col-md-6">
+              <input class="form-control" id="tel" name="tel" data-ng-model="tel" required type="tel" value="k"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="text">Text</label>
+            <div class="col-md-6">
+              <input class="form-control" id="text" name="text" data-ng-model="text" required type="text" value="Text!"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="time">Time</label>
+            <div class="col-md-6">
+              <input class="form-control" id="time" name="time" data-ng-model="time" required type="time" value="09:00"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="url">URL</label>
+            <div class="col-md-6">
+              <input class="form-control" id="url" name="url" data-ng-model="url" required type="url" value="http://mungface.com"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3" for="week">Week</label>
+            <div class="col-md-6">
+              <input class="form-control" id="week" name="week" data-ng-model="week" required type="week" value="2013-W03"/>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Radios</legend>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <label class="radio-inline">
+                <input name="radio" id="radio-mung" data-ng-model="radio" type="radio" value="mung"/>
+                Mung
+              </label>
+              <label class="radio-inline">
+                <input name="radio" id="radio-face" data-ng-model="radio" selected type="radio" value="face"/>
+                Face
+              </label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Checkboxes</legend>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <label class="checkbox-inline">
+                <input name="checkbox[]" data-ng-model="checkboxMung" selected type="checkbox" value="mung"/>
+                Mung
+              </label>
+              <label class="checkbox-inline">
+                <input name="checkbox[]" data-ng-model="checkboxFace" type="checkbox" value="face"/>
+                Face
+              </label>
+            </div>
+          </div>
+        </fieldset>
+        <div class="form-group">
+          <label class="control-label col-md-3" for="textarea">Textareas</label>
+          <div class="col-md-6">
+            <textarea class="form-control" id="textarea" name="textarea" data-ng-model="textarea">Mungface</textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
+

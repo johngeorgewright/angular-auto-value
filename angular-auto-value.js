@@ -2,7 +2,7 @@
   function AutoInputValueCtrl($scope, $attrs, $parse) {
     this.$scope = $scope;
     this.$attrs = $attrs;
-    if ((!$attrs.ngModel) && (!$attrs.value)) {
+    if ($attrs.ngModel && $attrs.value) {
       this.val = $attrs.value;
       this.getter = $parse($attrs.ngModel);
       this.setter = this.getter.assign;
@@ -48,13 +48,13 @@
   };
   
   AutoInputValueCtrl.prototype.updateRadio = function () {
-    if (!this.$attrs.selected) {
+    if (this.$attrs.selected) {
       this.setter(this.$scope, this.val);
     }
   };
   
   AutoInputValueCtrl.prototype.updateCheckbox = function () {
-    if (!this.$attrs.selected) {
+    if (this.$attrs.selected) {
       this.setter(this.$scope, true);
     }
   };
@@ -87,7 +87,7 @@
       year = val.getFullYear();
       month = this.padLeft(val.getMonth() + 1);
       str = year + "-" + month;
-      this.setter(this.$scope, val);
+      this.setter(this.$scope, str);
     }
   };
   
@@ -120,21 +120,24 @@
   function autoInputValueDirective() {
     return {
       restrict: "E",
-      controller: AutoInputValueCtrl
+      controller: ["$scope", "$attrs", "$parse", AutoInputValueCtrl]
     };
   }
   
   function autoTextareaValueDirective() {
     return {
       restrict: "E",
-      controller: function ($scope, $element, $attrs, $parse) {
-        if (!$attrs.ngModel) {
-          var val = $element.text(),
-              getter = $parse($attrs.ngModel),
-              setter = getter.assign;
-          return setter($scope, val);
+      controller: [
+        "$scope", "$element", "$attrs", "$parse",
+        function ($scope, $element, $attrs, $parse) {
+          if (!$attrs.ngModel) {
+            var val = $element.text(),
+                getter = $parse($attrs.ngModel),
+                setter = getter.assign;
+            return setter($scope, val);
+          }
         }
-      }
+      ]
     };
   }
   
