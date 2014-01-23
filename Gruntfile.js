@@ -25,6 +25,24 @@ module.exports = function (grunt) {
         }
       }
     },
+    http: {
+      closure: {
+        options: {
+          url: 'http://closure-compiler.appspot.com/compile',
+          method: 'POST',
+          form: {
+            output_info: 'compiled_code',
+            output_format: 'text',
+            compilation_level: 'SIMPLE_OPTIMIZATIONS',
+            warning_level: 'default'
+          },
+          sourceField: 'form.js_code'
+        },
+        files: {
+          'angular-auto-value.min.js': 'angular-auto-value.js'
+        }
+      }
+    },
     protractor: {
       options: {
         configFile: "test/conf.js",
@@ -40,6 +58,7 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-http');
   grunt.loadNpmTasks('grunt-protractor-runner');
 
 };
