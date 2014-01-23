@@ -1,0 +1,25 @@
+{
+  "name": "angular-auto-value",
+  "main": "angular-auto-value.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/johngeorgewright/angular-auto-value",
+  "authors": [
+    "John Wright <johngeorge.wright@gmail.com>"
+  ],
+  "description": "An extension to Angular.js to add automatic model value assignment from the `value` attribute on elements.",
+  "keywords": [
+    "angular",
+    "value",
+    "attribute"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "Gruntfile.js",
+    "node_modules",
+    "package.js",
+    "test",
+    "tests"
+  ]
+}
