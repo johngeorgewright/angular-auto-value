@@ -49,3 +49,22 @@ angular.module('myMod', ['auto-value']);
 
 This will also work for radios, checkboxes and all other input types.
 
+Installation
+------------
+
+### Bower
+
+```sh
+$ bower i --save angular-auto-value
+```
+
+```html
+<script src="bower_components/angular-auto-value/angular-auto-value.min.js"></script>
+```
+
+### CDN
+
+```html
+<script src="//cdn.jsdelivr.net/angular.auto-value/latest/angular-auto-value.min.js"></script>
+```
+
