@@ -68,3 +68,12 @@ $ bower i --save angular-auto-value
 <script src="//cdn.jsdelivr.net/angular.auto-value/latest/angular-auto-value.min.js"></script>
 ```
 
+Testing
+-------
+
+1. Install protractor `sudo npm i -g protractor`
+2. Make sure your webdirve is up to date `webdriver-manager update`
+2. Run the test suite: `npm test`
+
+To Run tests as you change files: `npm run dev`
+

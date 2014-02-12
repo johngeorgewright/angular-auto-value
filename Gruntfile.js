@@ -74,7 +74,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('test', ['connect:test', 'protractor:e2e']);
+  grunt.registerTask('test', ['connect:test', 'protractor:stand-alone']);
   grunt.registerTask('dev', ['connect:test', 'watch']);
   grunt.registerTask('default', ['test', 'http:closure']);
 
