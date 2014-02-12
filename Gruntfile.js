@@ -48,13 +48,22 @@ module.exports = function (grunt) {
     protractor: {
       options: {
         configFile: "test/conf.js",
-        keepAlive: true,
+        keepAlive: false,
         noColor: false
       },
-      e2e: {
+      'stand-alone': {},
+      attach: {
         options: {
-          configFile: "test/conf.js"
+          args: {
+            seleniumAddress: 'http://127.0.0.1:4444/wd/hub'
+          }
         }
+      }
+    },
+    watch: {
+      protractor: {
+        files: ['angular-auto-value.js', 'test/*Spec.js'],
+        tasks: ['protractor:attach']
       }
     }
   });
@@ -62,8 +71,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-http');
   grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['connect:test', 'protractor:e2e']);
+  grunt.registerTask('test', ['connect:test', 'protractor:e2e']);
+  grunt.registerTask('dev', ['connect:test', 'watch']);
+  grunt.registerTask('default', ['test', 'http:closure']);
 
 };
 

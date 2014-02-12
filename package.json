@@ -8,7 +8,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "protractor test/conf.js"
+    "test": "grunt test",
+    "dev": "webdriver-manager start & grunt dev",
+    "prepublish": "grunt"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,8 @@
     "grunt": "~0.4.2",
     "grunt-contrib-connect": "~0.6.0",
     "grunt-protractor-runner": "~0.2.3",
-    "grunt-http": "~1.0.1"
+    "grunt-http": "~1.0.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-shell": "~0.6.4"
   }
 }
