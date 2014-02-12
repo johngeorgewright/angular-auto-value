@@ -7,21 +7,23 @@ module.exports = function (grunt) {
         port: 8000,
         hostname: '0.0.0.0',
         base: '.',
-        keepalive: true
+        keepalive: false,
+        middleware: function (connect, options) {
+          return [
+            function (req, res, next) {
+              if (req.method === 'GET') {
+                res.setHeader('Cache-control', 'public, max-age=3600');
+              }
+              next();
+            },
+            connect.static(options.base)
+          ];
+        }
       },
-      test: {
+      test: {},
+      dev: {
         options: {
-          middleware: function (connect, options) {
-            return [
-              function (req, res, next) {
-                if (req.method === 'GET') {
-                  res.setHeader('Cache-control', 'public, max-age=3600');
-                }
-                next();
-              },
-              connect.static(options.base)
-            ];
-          }
+          keepalive: true
         }
       }
     },
@@ -60,6 +62,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-http');
   grunt.loadNpmTasks('grunt-protractor-runner');
+
+  grunt.registerTask('default', ['connect:test', 'protractor:e2e']);
 
 };
 
