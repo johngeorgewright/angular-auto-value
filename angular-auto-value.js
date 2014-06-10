@@ -9,6 +9,10 @@
       this.update();
     }
   }
+
+  AutoInputValueCtrl.prototype.set = function (value) {
+    this.setter(this.$scope, value);
+  };
   
   AutoInputValueCtrl.prototype.update = function () {
     switch (this.$attrs.type) {
@@ -29,52 +33,87 @@
       case "radio":
         this.updateRadio();
         break;
+      case "date":
+      case "datetime":
+      case "datetime-local":
+      case "month":
+        this.updateDate();
+        break;
+      case "time":
+        this.updateTime();
+        break;
+      case "week":
+        this.updateWeek();
+        break;
       default:
         this.updateText();
     }
   };
   
   AutoInputValueCtrl.prototype.updateText = function () {
-    this.setter(this.$scope, this.val);
+    this.set(this.val);
   };
   
   AutoInputValueCtrl.prototype.updateRadio = function () {
     if (this.$attrs.selected) {
-      this.setter(this.$scope, this.val);
+      this.set(this.val);
     }
   };
   
   AutoInputValueCtrl.prototype.updateCheckbox = function () {
-    if (this.$attrs.selected) {
-      this.setter(this.$scope, true);
-    }
+    this.set(this.$attrs.selected);
   };
   
   AutoInputValueCtrl.prototype.updateNumber = function () {
-    this.setter(this.$scope, parseInt(this.val));
+    this.set(parseInt(this.val));
   };
-  
+
+  AutoInputValueCtrl.prototype.updateDate = function () {
+    this.set(new Date(this.val));
+  };
+
+  AutoInputValueCtrl.prototype.updateTime = function () {
+    var date = new Date(),
+        time = this.val.split(':');
+    date.setHours.apply(date, time);
+    this.set(date);
+  };
+
+  /**
+   * @todo
+   */
+  AutoInputValueCtrl.prototype.updateWeek = function () {
+    // var val = this.val.split('-W'),
+    //     year = val[0],
+    //     week = val[1],
+    //     DAYS_IN_A_WEEK = 7,
+    //     day = week * DAYS_IN_A_WEEK;
+    //     date;
+    // if (!week) {
+    //   throw new Error("Incorrect week format '" + val + "'");
+    // }
+  };
+
   function autoInputValueDirective() {
     return {
       restrict: "E",
       controller: ["$scope", "$attrs", "$parse", AutoInputValueCtrl]
     };
   }
+
+  function textareaCtrlFactory($scope, $element, $attrs, $parse) {
+    if (!$attrs.ngModel) {
+      var val = $element.text(),
+          getter = $parse($attrs.ngModel),
+          setter = getter.assign;
+      return setter($scope, val);
+    }
+  }
   
   function autoTextareaValueDirective() {
     return {
       restrict: "E",
-      controller: [
-        "$scope", "$element", "$attrs", "$parse",
-        function ($scope, $element, $attrs, $parse) {
-          if (!$attrs.ngModel) {
-            var val = $element.text(),
-                getter = $parse($attrs.ngModel),
-                setter = getter.assign;
-            return setter($scope, val);
-          }
-        }
-      ]
+      controller: ["$scope", "$element", "$attrs", "$parse", textareaCtrlFactory]
     };
   }
   
