@@ -1,4 +1,28 @@
 (function (ng) {
+
+  var MILLISECONDS_PER_DAY = 86400000,
+      OFFSET_TO_START_WEEK_ON_MONDAY = 1,
+      JAN = 0,
+      DAYS_PER_WEEK = 7;
+
+  function getFirstDateOfTheYear(date) {
+    return new Date(date.getFullYear(), JAN, 1);
+  }
+
+  function getFirstDayOfTheYear(date) {
+    var firstJan = getFirstDateOfTheYear(date);
+    return firstJan.getDay() + OFFSET_TO_START_WEEK_ON_MONDAY;
+  }
+
+  function setWeek(date, week) {
+    var dayOfTheYear = Math.floor(week * DAYS_PER_WEEK),
+        daysSinceFirstJan = dayOfTheYear - getFirstDayOfTheYear(date),
+        msSinceFirstJan = daysSinceFirstJan * MILLISECONDS_PER_DAY,
+        firstJan = getFirstDateOfTheYear(date),
+        ms = firstJan.getTime() + msSinceFirstJan;
+    date.setTime(ms);
+  }
+
   function AutoInputValueCtrl($scope, $attrs, $parse) {
     this.$scope = $scope;
     this.$attrs = $attrs;
@@ -9,7 +33,11 @@
       this.update();
     }
   }
-  
+
+  AutoInputValueCtrl.prototype.set = function (value) {
+    this.setter(this.$scope, value);
+  };
+
   AutoInputValueCtrl.prototype.update = function () {
     switch (this.$attrs.type) {
       case "button":
@@ -29,58 +57,88 @@
       case "radio":
         this.updateRadio();
         break;
+      case "date":
+      case "datetime":
+      case "datetime-local":
+      case "month":
+        this.updateDate();
+        break;
+      case "time":
+        this.updateTime();
+        break;
+      case "week":
+        this.updateWeek();
+        break;
       default:
         this.updateText();
     }
   };
-  
+
   AutoInputValueCtrl.prototype.updateText = function () {
-    this.setter(this.$scope, this.val);
+    this.set(this.val);
   };
-  
+
   AutoInputValueCtrl.prototype.updateRadio = function () {
     if (this.$attrs.selected) {
-      this.setter(this.$scope, this.val);
+      this.set(this.val);
     }
   };
-  
+
   AutoInputValueCtrl.prototype.updateCheckbox = function () {
-    if (this.$attrs.selected) {
-      this.setter(this.$scope, true);
-    }
+    this.set(this.$attrs.selected);
   };
-  
+
   AutoInputValueCtrl.prototype.updateNumber = function () {
-    this.setter(this.$scope, parseInt(this.val));
+    this.set(+this.val);
   };
-  
+
+  AutoInputValueCtrl.prototype.updateDate = function () {
+    this.set(new Date(this.val));
+  };
+
+  AutoInputValueCtrl.prototype.updateTime = function () {
+    var date = new Date(),
+        time = this.val.split(':');
+    date.setHours.apply(date, time);
+    this.set(date);
+  };
+
+  AutoInputValueCtrl.prototype.updateWeek = function () {
+    var val = this.val.split('-W'),
+        year = +val[0],
+        week = +val[1],
+        date = new Date(year, JAN, 1);
+    setWeek(date, week);
+    this.set(date);
+  };
+
   function autoInputValueDirective() {
     return {
       restrict: "E",
       controller: ["$scope", "$attrs", "$parse", AutoInputValueCtrl]
     };
   }
-  
+
+  function autoTextareaValueCtrl($scope, $element, $attrs, $parse) {
+    if (!$attrs.ngModel) {
+      var val = $element.text(),
+          getter = $parse($attrs.ngModel),
+          setter = getter.assign;
+      return setter($scope, val);
+    }
+  }
+
   function autoTextareaValueDirective() {
     return {
       restrict: "E",
-      controller: [
-        "$scope", "$element", "$attrs", "$parse",
-        function ($scope, $element, $attrs, $parse) {
-          if (!$attrs.ngModel) {
-            var val = $element.text(),
-                getter = $parse($attrs.ngModel),
-                setter = getter.assign;
-            return setter($scope, val);
-          }
-        }
-      ]
+      controller: ["$scope", "$element", "$attrs", "$parse", autoTextareaValueCtrl]
     };
   }
-  
+
   ng
     .module('auto-value', [])
     .directive('input', autoInputValueDirective)
     .directive('textarea', autoTextareaValueDirective);
+
 }(angular));
 
