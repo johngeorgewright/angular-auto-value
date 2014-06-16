@@ -3,6 +3,8 @@ Angular Auto Value
 
 An extension to angular to automatically update models via the `value` attribute.
 
+** If you're using angular < 1.3 you'll please use angular-auto-value < 2.0.0. **
+
 Example
 -------
 
@@ -47,7 +49,7 @@ angular.module('myMod', ['auto-value']);
 </body>
 ```
 
-This will also work for radios, checkboxes and all other input types.
+This will also work for radios, checkboxes and all text inputs including dates, months, weeks etc.
 
 Installation
 ------------
