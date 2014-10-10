@@ -120,8 +120,8 @@
   }
 
   function autoTextareaValueCtrl($scope, $element, $attrs, $parse) {
-    if (!$attrs.ngModel) {
-      var val = $element.text(),
+    if ($attrs.ngModel) {
+      var val = $element.val(),
           getter = $parse($attrs.ngModel),
           setter = getter.assign;
       return setter($scope, val);
@@ -135,9 +135,17 @@
     };
   }
 
+  function autoValueAttributeDirective() {
+    return {
+      restrict: "A",
+      controller: ["$scope", "$element", "$attrs", "$parse", autoTextareaValueCtrl]
+    };
+  }
+
   ng
     .module('auto-value', [])
     .directive('input', autoInputValueDirective)
+    .directive('autoValue', autoValueAttributeDirective)
     .directive('textarea', autoTextareaValueDirective);
 
 }(angular));
