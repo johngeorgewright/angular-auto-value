@@ -135,17 +135,25 @@
     };
   }
 
-  function autoValueAttributeDirective() {
-    return {
-      restrict: "A",
-      controller: ["$scope", "$element", "$attrs", "$parse", autoTextareaValueCtrl]
+  function autoSelectDirective($parse) {
+    return{
+      restrict: 'E',
+      require: 'select',
+      link: function($scope, $element, $attrs) {
+        if($attrs.ngModel){
+          var val = $element.val();
+          getter = $parse($attrs.ngModel);
+          setter = getter.assign;
+          setter($scope, val);
+        }
+      }
     };
   }
 
   ng
     .module('auto-value', [])
     .directive('input', autoInputValueDirective)
-    .directive('autoValue', autoValueAttributeDirective)
+    .directive('select', ['$parse', autoSelectDirective])
     .directive('textarea', autoTextareaValueDirective);
 
 }(angular));
