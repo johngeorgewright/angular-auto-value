@@ -2,7 +2,7 @@
 <html lang="en" data-ng-app="myApp">
   <head>
     <title>Auto value e2e testing</title>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.11/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.5/angular.min.js"></script>
     <script src="/angular-auto-value.js"></script>
     <script>
       angular.module("myApp", ["auto-value"]);
@@ -11,6 +11,17 @@
   <body>
     <div class="container">
       <form action="#" class="form-horizontal" name="f">
+        <div class="form-group">
+          <label class="control-label col-md-3" for="select">Select</label>
+          <div class="col-md-6">
+            <select name="select" id="select" data-ng-model="select">
+              <option value=""></option>
+              <option value="dog">dog</option>
+              <option value="cat">cat</option>
+              <option value="bird" selected>bird</option>
+            </select>
+          </div>
+        </div>
         <fieldset>
           <legend>Inputs</legend>
           <div class="form-group">

@@ -19,7 +19,8 @@ describe('autoValue', function () {
         text: 'Text!',
         time: '09:00',
         url: 'http://mungface.com',
-        week: '2013-W03'
+        week: '2013-W03',
+        select: 'bird'
       },
       key;
 
