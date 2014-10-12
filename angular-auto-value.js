@@ -140,7 +140,7 @@
       restrict: 'E',
       require: 'select',
       link: function($scope, $element, $attrs) {
-        if($attrs.ngModel){
+        if ($attrs.ngModel) {
           var val = $element.val();
           getter = $parse($attrs.ngModel);
           setter = getter.assign;
