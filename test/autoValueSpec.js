@@ -8,7 +8,7 @@ describe('autoValue', function () {
         color: '#b89435',
         date: '1987-01-01',
         datetime: new Date('12/07/1987').toString(),
-        datetimeLocal: '1987-12-07T00:00',
+        datetimeLocal: '1987-12-07T00:00:00.000',
         email: 'mung@face.com',
         month: '2013-01',
         number: '5555',
@@ -17,7 +17,7 @@ describe('autoValue', function () {
         search: 'searching stuff',
         tel: 'k',
         text: 'Text!',
-        time: '09:00',
+        time: '09:00:00.111',
         url: 'http://mungface.com',
         week: '2013-W03',
         select: 'bird'

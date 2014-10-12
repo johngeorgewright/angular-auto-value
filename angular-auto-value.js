@@ -98,7 +98,7 @@
 
   AutoInputValueCtrl.prototype.updateTime = function () {
     var date = new Date(),
-        time = this.val.split(':');
+        time = this.val.split(/[:\.]/);
     date.setHours.apply(date, time);
     this.set(date);
   };
