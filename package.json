@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "grunt test",
-    "dev": "webdriver-manager start & grunt dev",
-    "prepublish": "grunt"
+    "dev": "./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager start & grunt dev",
+    "prepublish": "grunt",
+    "update-webdriver": "./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
   },
   "repository": {
     "type": "git",

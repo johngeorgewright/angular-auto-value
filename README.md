@@ -73,9 +73,8 @@ $ bower i --save angular-auto-value
 Testing
 -------
 
-1. Install protractor `sudo npm i -g protractor`
-2. Make sure your webdirve is up to date `webdriver-manager update`
-3. Run the test suite: `npm test`
+1. Make sure your webdirve is up to date `npm run update-webdriver`
+2. Run the test suite: `npm test`
 
 To Run tests as you change files: `npm run dev`
 
