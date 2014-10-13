@@ -119,42 +119,28 @@
     };
   }
 
-  function autoTextareaValueCtrl($scope, $element, $attrs, $parse) {
-    if ($attrs.ngModel) {
-      var val = $element.val(),
-          getter = $parse($attrs.ngModel),
-          setter = getter.assign;
-      return setter($scope, val);
+  function autoValueDirective($parse) {
+    function link($scope, $element, $attrs) {
+      if ($attrs.ngModel) {
+        var val = $element.val(),
+            getter = $parse($attrs.ngModel),
+            setter = getter.assign;
+        setter($scope, val);
+      }
     }
-  }
-
-  function autoTextareaValueDirective() {
     return {
       restrict: "E",
-      controller: ["$scope", "$element", "$attrs", "$parse", autoTextareaValueCtrl]
+      link: link
     };
   }
 
-  function autoSelectDirective($parse) {
-    return{
-      restrict: 'E',
-      require: 'select',
-      link: function($scope, $element, $attrs) {
-        if ($attrs.ngModel) {
-          var val = $element.val();
-          getter = $parse($attrs.ngModel);
-          setter = getter.assign;
-          setter($scope, val);
-        }
-      }
-    };
-  }
+  autoValueDirective.$inject = ['$parse'];
 
   ng
     .module('auto-value', [])
     .directive('input', autoInputValueDirective)
-    .directive('select', ['$parse', autoSelectDirective])
-    .directive('textarea', autoTextareaValueDirective);
+    .directive('select', autoValueDirective)
+    .directive('textarea', autoValueDirective);
 
 }(angular));
 
