@@ -55,5 +55,12 @@ describe('autoValue', function () {
     expect(val).toEqual('Mungface');
   });
 
+  it('will select options', function () {
+    var el = element(by.model('select')),
+        selected = el.$('option:checked'),
+        val = selected.getText();
+    expect(val).toEqual('Mung face');
+  });
+
 });
 

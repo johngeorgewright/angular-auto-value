@@ -9,78 +9,98 @@
       this.update();
     }
   }
-  
-  AutoInputValueCtrl.prototype.update = function () {
-    switch (this.$attrs.type) {
-      case "button":
-      case "file":
-      case "hidden":
-      case "image":
-      case "reset":
-      case "submit":
-        break;
-      case "checkbox":
-        this.updateCheckbox();
-        break;
-      case "number":
-      case "range":
-        this.updateNumber();
-        break;
-      case "radio":
-        this.updateRadio();
-        break;
-      default:
-        this.updateText();
-    }
-  };
-  
-  AutoInputValueCtrl.prototype.updateText = function () {
-    this.setter(this.$scope, this.val);
-  };
-  
-  AutoInputValueCtrl.prototype.updateRadio = function () {
-    if (this.$attrs.selected) {
+
+  ng.extend(AutoInputValueCtrl.prototype, {
+    update: function () {
+      switch (this.$attrs.type) {
+        case "button":
+        case "file":
+        case "hidden":
+        case "image":
+        case "reset":
+        case "submit":
+          break;
+        case "checkbox":
+          this.updateCheckbox();
+          break;
+        case "number":
+        case "range":
+          this.updateNumber();
+          break;
+        case "radio":
+          this.updateRadio();
+          break;
+        default:
+          this.updateText();
+      }
+    },
+
+    updateText: function () {
       this.setter(this.$scope, this.val);
+    },
+
+    updateRadio: function () {
+      if (this.$attrs.selected) {
+        this.setter(this.$scope, this.val);
+      }
+    },
+
+    updateCheckbox: function () {
+      if (this.$attrs.selected) {
+        this.setter(this.$scope, true);
+      }
+    },
+
+    updateNumber: function () {
+      this.setter(this.$scope, parseInt(this.val));
     }
-  };
-  
-  AutoInputValueCtrl.prototype.updateCheckbox = function () {
-    if (this.$attrs.selected) {
-      this.setter(this.$scope, true);
-    }
-  };
-  
-  AutoInputValueCtrl.prototype.updateNumber = function () {
-    this.setter(this.$scope, parseInt(this.val));
-  };
-  
+  });
+
   function autoInputValueDirective() {
     return {
       restrict: "E",
       controller: ["$scope", "$attrs", "$parse", AutoInputValueCtrl]
     };
   }
-  
-  function autoTextareaValueDirective() {
+
+  function autoTextareaValueDirective($parse) {
     return {
       restrict: "E",
-      controller: [
-        "$scope", "$element", "$attrs", "$parse",
-        function ($scope, $element, $attrs, $parse) {
-          if (!$attrs.ngModel) {
-            var val = $element.text(),
-                getter = $parse($attrs.ngModel),
-                setter = getter.assign;
-            return setter($scope, val);
-          }
+      link: function ($scope, $element, $attrs) {
+        if ($attrs.ngModel) {
+          var val = $element.text(),
+              getter = $parse($attrs.ngModel),
+              setter = getter.assign;
+          return setter($scope, val);
         }
-      ]
+      }
     };
   }
-  
+
+  function autoSelectValueDirective($parse) {
+    return {
+      restrict: 'E',
+      link: function ($scope, $element, $attrs) {
+        if ($attrs.ngModel) {
+          var getter = $parse($attrs.ngModel),
+              setter = getter.assign,
+              i, options, option;
+          options = $element.find('option');
+          for (i=options.length-1; i>-1; i--) {
+            option = ng.element(options[i]);
+            if (option.attr('selected')) {
+              return setter($scope, option.val());
+            }
+          }
+        }
+      }
+    };
+  }
+
   ng
     .module('auto-value', [])
     .directive('input', autoInputValueDirective)
-    .directive('textarea', autoTextareaValueDirective);
+    .directive('textarea', ['$parse', autoTextareaValueDirective])
+    .directive('select', ['$parse', autoSelectValueDirective]);
 }(angular));
 
