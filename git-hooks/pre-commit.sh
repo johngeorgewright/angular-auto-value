@@ -10,11 +10,15 @@ command()
   fi
 }
 
-changed=`git diff --cached --name-only | grep angular-auto-value.js`
+changed_testable_files=`git diff --cached --name-only | grep test`
+changed_minifiable_file=`git diff --cached --name-only | grep angular-auto-value.js`
 
-command npm test
+if [$changed_testable_files -o $changed_minifiable_file]
+then
+  command npm test
+fi
 
-if [$changed]
+if [$changed_minifiable_file]
 then
   command npm run prepublish
   git add angular-auto-value.min.js
