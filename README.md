@@ -78,3 +78,12 @@ Testing
 
 To Run tests as you change files: `npm run dev`
 
+Git Hooks
+---------
+
+There is a git hook available for shell environments that will automatically test and compile the module when commiting it. To use it simply link it in to the git hook directory.
+
+```sh
+cd .git/hooks && ln -s ../../git-hooks/pre-commit.sh pre-commit
+```
+
