@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "grunt test",
+    "postinstall": "npm run update-webdriver",
     "dev": "./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager start & grunt dev",
     "prepublish": "grunt",
     "update-webdriver": "./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
