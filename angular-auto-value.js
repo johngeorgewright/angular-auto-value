@@ -3,7 +3,8 @@
   var MILLISECONDS_PER_DAY = 86400000,
       OFFSET_TO_START_WEEK_ON_MONDAY = 1,
       JAN = 0,
-      DAYS_PER_WEEK = 7;
+      DAYS_PER_WEEK = 7,
+      $PARSE = '$parse';
 
   function getFirstDateOfTheYear(date) {
     return new Date(date.getFullYear(), JAN, 1);
@@ -23,111 +24,68 @@
     date.setTime(ms);
   }
 
-  function AutoInputValueCtrl($scope, $attrs, $parse) {
-    this.$scope = $scope;
-    this.$attrs = $attrs;
-    if ($attrs.ngModel && $attrs.value) {
-      this.val = $attrs.value;
-      this.getter = $parse($attrs.ngModel);
-      this.setter = this.getter.assign;
-      this.update();
-    }
+  function setter(parse, scope, attr) {
+    var getter = parse(attr);
+    return function (value) {
+      getter.assign(scope, value);
+    };
   }
 
-  ng.extend(AutoInputValueCtrl.prototype, {
-    set: function (value) {
-      this.setter(this.$scope, value);
-    },
+  function time(value, set) {
+    var date = new Date(),
+        time = value.split(/[:\.]/);
+    date.setHours.apply(date, time);
+    set(date);
+  }
 
-    update: function () {
-      switch (this.$attrs.type) {
+  function week(value, set) {
+    var val = value.split('-W'),
+        year = +val[0],
+        week = +val[1],
+        date = new Date(year, JAN, 1);
+    setWeek(date, week);
+    set(date);
+  }
+
+  function autoInputValueDirective($parse) {
+    function link($scope, $element, $attrs) {
+      if (!$attrs.ngModel) return;
+      var set = setter($parse, $scope, $attrs.ngModel),
+          value = $element.val(),
+          selected = $attrs.selected,
+          method;
+      switch ($attrs.type) {
         case "button":
         case "file":
         case "hidden":
         case "image":
         case "reset":
         case "submit":
-          break;
+          return;
         case "checkbox":
-          this.updateCheckbox();
+          set(selected);
           break;
         case "number":
         case "range":
-          this.updateNumber();
+          set(+value);
           break;
         case "radio":
-          this.updateRadio();
+          if (selected) set(value);
           break;
         case "date":
         case "datetime":
         case "datetime-local":
         case "month":
-          this.updateDate();
+          set(new Date(value));
           break;
         case "time":
-          this.updateTime();
+          time(value, set);
           break;
         case "week":
-          this.updateWeek();
+          week(value, set);
           break;
         default:
-          this.updateText();
-      }
-    },
-
-    updateText: function () {
-      this.set(this.val);
-    },
-
-    updateRadio: function () {
-      if (this.$attrs.selected) {
-        this.set(this.val);
-      }
-    },
-
-    updateCheckbox: function () {
-      this.set(this.$attrs.selected);
-    },
-
-    updateNumber: function () {
-      this.set(+this.val);
-    },
-
-    updateDate: function () {
-      this.set(new Date(this.val));
-    },
-
-    updateTime: function () {
-      var date = new Date(),
-          time = this.val.split(/[:\.]/);
-      date.setHours.apply(date, time);
-      this.set(date);
-    },
-
-    updateWeek: function () {
-      var val = this.val.split('-W'),
-          year = +val[0],
-          week = +val[1],
-          date = new Date(year, JAN, 1);
-      setWeek(date, week);
-      this.set(date);
-    }
-  });
-
-  function autoInputValueDirective() {
-    return {
-      restrict: "E",
-      controller: ["$scope", "$attrs", "$parse", AutoInputValueCtrl]
-    };
-  }
-
-  function autoValueDirective($parse) {
-    function link($scope, $element, $attrs) {
-      if ($attrs.ngModel) {
-        var val = $element.val(),
-            getter = $parse($attrs.ngModel),
-            setter = getter.assign;
-        setter($scope, val);
+          set(value);
       }
     }
     return {
@@ -136,11 +94,24 @@
     };
   }
 
-  autoValueDirective.$inject = ['$parse'];
+  function autoValueDirective($parse) {
+    function link($scope, $element, $attrs) {
+      if (!$attrs.ngModel) return;
+      var val = $element.val(),
+          set = setter($parse, $scope, $attrs.ngModel);
+      set(val);
+    }
+    return {
+      restrict: "E",
+      link: link
+    };
+  }
+
+  autoValueDirective.$inject = [$PARSE];
 
   ng
     .module('auto-value', [])
-    .directive('input', autoInputValueDirective)
+    .directive('input', [$PARSE, autoInputValueDirective])
     .directive('select', autoValueDirective)
     .directive('textarea', autoValueDirective);
 
