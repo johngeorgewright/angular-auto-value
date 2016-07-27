@@ -1,7 +1,7 @@
 {
   "name": "angular-auto-value",
   "main": "angular-auto-value.js",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "homepage": "https://github.com/johngeorgewright/angular-auto-value",
   "authors": [
     "John Wright <johngeorge.wright@gmail.com>"
