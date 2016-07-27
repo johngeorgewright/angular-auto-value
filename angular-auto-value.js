@@ -52,7 +52,7 @@
       if (!$attrs.ngModel) return;
       var set = setter($parse, $scope, $attrs.ngModel),
           value = $element.val(),
-          selected = $attrs.selected,
+          checked = $attrs.checked,
           method;
       switch ($attrs.type) {
         case "button":
@@ -63,14 +63,14 @@
         case "submit":
           return;
         case "checkbox":
-          set(selected);
+          set(checked);
           break;
         case "number":
         case "range":
           set(+value);
           break;
         case "radio":
-          if (selected) set(value);
+          if (checked) set(value);
           break;
         case "date":
         case "datetime":
@@ -116,4 +116,3 @@
     .directive('textarea', autoValueDirective);
 
 }(angular));
-

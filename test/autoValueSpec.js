@@ -47,7 +47,7 @@ describe('autoValue', function () {
 
   it('will check radios', function () {
     var el = element(by.id('radio-face'));
-    expect(el.isSelected()).toBe(true);
+    expect(el.isSelected()).toBeTruthy();
   });
 
   it('will fill textareas', function () {
@@ -57,4 +57,3 @@ describe('autoValue', function () {
   });
 
 });
-
