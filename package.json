@@ -1,6 +1,6 @@
 {
   "name": "angular-auto-value",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "description": "An extension to Angular.js to add automatic model value assignment from the `value` attribute on elements.",
   "main": "angular-auto-value.js",
   "directories": {
