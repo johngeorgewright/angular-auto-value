@@ -1,3 +1,5 @@
+var serveStatic = require('serve-static');
+
 module.exports = function (grunt) {
 
   grunt.initConfig({
@@ -9,15 +11,18 @@ module.exports = function (grunt) {
         base: '.',
         keepalive: false,
         middleware: function (connect, options) {
-          return [
+          var middleware = [
             function (req, res, next) {
               if (req.method === 'GET') {
                 res.setHeader('Cache-control', 'public, max-age=3600');
               }
               next();
             },
-            connect.static(options.base)
           ];
+          options.base.forEach(function (base) {
+            middleware.push(serveStatic(base));
+          });
+          return middleware;
         }
       },
       test: {},
@@ -78,4 +83,3 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['test', 'http:closure']);
 
 };
-
