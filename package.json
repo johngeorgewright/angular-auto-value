@@ -8,7 +8,6 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "npm run update-webdriver",
     "dev": "./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager start & grunt dev",
     "prepublish": "grunt",
     "update-webdriver": "./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
@@ -28,10 +27,11 @@
     "url": "https://github.com/johngeorgewright/angular-auto-value/issues"
   },
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-connect": "~0.6.0",
-    "grunt-protractor-runner": "~0.2.3",
-    "grunt-http": "~1.0.1",
-    "grunt-contrib-watch": "~0.5.3"
+    "grunt": "~1.0.1",
+    "grunt-contrib-connect": "~1.0.2",
+    "grunt-contrib-watch": "~1.0.0",
+    "grunt-http": "~2.0.1",
+    "grunt-protractor-runner": "~3.2.0",
+    "serve-static": "^1.11.1"
   }
 }
