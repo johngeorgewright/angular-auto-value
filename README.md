@@ -1,6 +1,8 @@
 Angular Auto Value
 ==================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/johngeorgewright/angular-auto-value.svg)](https://greenkeeper.io/)
+
 An extension to angular to automatically update models via the `value` attribute.
 
 ** If you're using angular < 1.3 you'll please use angular-auto-value < 2.0.0. **
