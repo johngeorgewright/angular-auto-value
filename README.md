@@ -67,7 +67,7 @@ $ bower i --save angular-auto-value
 ### CDN
 
 ```html
-<script src="//cdn.jsdelivr.net/angular.auto-value/latest/angular-auto-value.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/angular-auto-value@latest/angular-auto-value.min.js"></script>
 ```
 
 Testing
